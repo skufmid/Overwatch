@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnRotate(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed || context.canceled)
         {
             rotateInput = context.ReadValue<Vector2>();
         }
@@ -71,15 +71,14 @@ public class PlayerController : MonoBehaviour
 
     private void RotateCameraX(float value)
     {
-        Vector3 currentRotation = cameraTransform.rotation.eulerAngles;
+        Vector3 currentRotation = cameraTransform.localEulerAngles;
         float newXRotation = currentRotation.x + (value * Time.deltaTime);
 
-        // eulerAngles�� 0-360 �����̹Ƿ�, -85���� 45 ������ ��ȯ
         if (newXRotation > 180)
             newXRotation -= 360;
 
-        newXRotation = Mathf.Clamp(newXRotation, -MIN_CAMERA_X, MAX_CAMERA_X);
+        newXRotation = Mathf.Clamp(newXRotation, MIN_CAMERA_X, MAX_CAMERA_X);
 
-        cameraTransform.rotation = Quaternion.Euler(newXRotation, currentRotation.y, currentRotation.z);
+        cameraTransform.localEulerAngles = new Vector3(newXRotation, currentRotation.y, currentRotation.z);
     }
 }

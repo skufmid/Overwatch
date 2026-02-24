@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
         Vector3 currentRotation = cameraTransform.rotation.eulerAngles;
         float newXRotation = currentRotation.x + (value * Time.deltaTime);
 
-        // eulerAngles´Â 0-360 ¹üÀ§ÀÌ¹Ç·Î, -85¿¡¼­ 45 ¹üÀ§·Î º¯È¯
+        // eulerAnglesï¿½ï¿½ 0-360 ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½, -85ï¿½ï¿½ï¿½ï¿½ 45 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
         if (newXRotation > 180)
             newXRotation -= 360;
 

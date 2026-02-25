@@ -52,6 +52,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnRun(InputAction.CallbackContext context)
+    {
+        if (context.performed && IsGrounded && !jumping.IsJumping)
+        {
+            movement.IsRunning = true;
+        }
+        else if (context.canceled)
+        {
+            movement.IsRunning = false;
+        }
+    }
+
     public void OnRotate(InputAction.CallbackContext context)
     {
         if (context.performed || context.canceled)

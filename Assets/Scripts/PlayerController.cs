@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     private Movement movement;
     private Rotation rotation;
+    private Jumping jumping;
 
     private Vector2 moveInput = Vector2.zero;
     private Vector2 rotateInput = Vector2.zero;
@@ -17,8 +18,8 @@ public class PlayerController : MonoBehaviour
     {
         get
         {
-            return Physics.SphereCast(
-                transform.position, 0f, Vector3.down, out RaycastHit hitInfo, GROUND_CHECK_DISTANCE, GROUND_LAYER);
+            return Physics.CheckSphere(
+                transform.position, GROUND_CHECK_DISTANCE, GROUND_LAYER);
         }
     }
 
@@ -28,7 +29,7 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawSphere(transform.position, GROUND_CHECK_DISTANCE);
     }
 
-    const float GROUND_CHECK_DISTANCE = 0.2f;
+    const float GROUND_CHECK_DISTANCE = 0.4f;
     const int GROUND_LAYER = 1 << 6; // Assuming ground is on layer 0
     const float MIN_CAMERA_X = -85f;
     const float MAX_CAMERA_X = 45f;
@@ -39,6 +40,7 @@ public class PlayerController : MonoBehaviour
     {
         movement = gameObject.AddComponent<Movement>();
         rotation = gameObject.AddComponent<Rotation>();
+        jumping = gameObject.AddComponent<Jumping>();
     }
 
 
@@ -58,12 +60,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.performed && IsGrounded && !jumping.IsJumping)
+        {
+            jumping.HandleJump();
+        }
+    }
+
 
     private void Update()
     {
         HandleMove();
         HandleRotate();
-        Debug.Log($"IsGrounded: {IsGrounded}");
+
     }
 
     private void HandleMove()

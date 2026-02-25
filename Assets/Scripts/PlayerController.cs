@@ -100,6 +100,8 @@ public class PlayerController : MonoBehaviour
 
         movement.MoveDirection =
             (moveInput.x * cameraRight + moveInput.y * cameraForward).normalized;
+        movement.MoveLocalDirection =
+            (moveInput.x * Vector3.right + moveInput.y * Vector3.forward);
     }
 
     private void HandleRotate()

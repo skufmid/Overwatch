@@ -18,11 +18,17 @@ public class PlayerController : MonoBehaviour
         get
         {
             return Physics.SphereCast(
-                transform.position, 0.1f, Vector3.down, out RaycastHit hitInfo, GROUND_CHECK_DISTANCE, GROUND_LAYER);
+                transform.position, 0f, Vector3.down, out RaycastHit hitInfo, GROUND_CHECK_DISTANCE, GROUND_LAYER);
         }
     }
 
-    const float GROUND_CHECK_DISTANCE = 0.4f;
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(transform.position, GROUND_CHECK_DISTANCE);
+    }
+
+    const float GROUND_CHECK_DISTANCE = 0.2f;
     const int GROUND_LAYER = 1 << 6; // Assuming ground is on layer 0
     const float MIN_CAMERA_X = -85f;
     const float MAX_CAMERA_X = 45f;

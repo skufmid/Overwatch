@@ -19,8 +19,9 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        movement = GetComponent<Movement>();
-        rotation = GetComponent<Rotation>();
+        movement = gameObject.AddComponent<Movement>();
+        rotation = gameObject.AddComponent<Rotation>();
+        
     }
 
 

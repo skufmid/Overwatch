@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -12,6 +13,17 @@ public class PlayerController : MonoBehaviour
 
     public float RotateSensitivity { get; set; } = 10f;
 
+    public bool IsGrounded
+    {
+        get
+        {
+            return Physics.SphereCast(
+                transform.position, 0.1f, Vector3.down, out RaycastHit hitInfo, GROUND_CHECK_DISTANCE, GROUND_LAYER);
+        }
+    }
+
+    const float GROUND_CHECK_DISTANCE = 0.4f;
+    const int GROUND_LAYER = 1 << 6; // Assuming ground is on layer 0
     const float MIN_CAMERA_X = -85f;
     const float MAX_CAMERA_X = 45f;
 
@@ -21,7 +33,6 @@ public class PlayerController : MonoBehaviour
     {
         movement = gameObject.AddComponent<Movement>();
         rotation = gameObject.AddComponent<Rotation>();
-        
     }
 
 
@@ -46,6 +57,7 @@ public class PlayerController : MonoBehaviour
     {
         HandleMove();
         HandleRotate();
+        Debug.Log($"IsGrounded: {IsGrounded}");
     }
 
     private void HandleMove()
@@ -82,4 +94,6 @@ public class PlayerController : MonoBehaviour
 
         cameraTransform.localEulerAngles = new Vector3(newXRotation, currentRotation.y, currentRotation.z);
     }
+
+    
 }

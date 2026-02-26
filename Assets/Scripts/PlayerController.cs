@@ -13,10 +13,14 @@ public class PlayerController : MonoBehaviour
     private Jumping jumping;
     private Shooting shooting;
 
+    private Transform spine;
+
     private Vector2 moveInput = Vector2.zero;
     private Vector2 rotateInput = Vector2.zero;
 
     public float RotateSensitivity { get; set; } = 10f;
+
+    private float cameraXRotation = 0f;
 
     public bool IsGrounded
     {
@@ -49,6 +53,11 @@ public class PlayerController : MonoBehaviour
         rotation = gameObject.AddComponent<Rotation>();
         jumping = gameObject.AddComponent<Jumping>();
         shooting = gameObject.AddComponent<Shooting>();
+    }
+
+    private void Start()
+    {
+        spine = anim.GetBoneTransform(HumanBodyBones.Spine);
     }
 
 
@@ -101,9 +110,13 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         HandleMove();
-        HandleRotate();
 
         //CheckFalling();
+    }
+
+    private void LateUpdate()
+    {
+        HandleRotate();
     }
 
     private void HandleMove()
@@ -132,16 +145,13 @@ public class PlayerController : MonoBehaviour
 
     private void RotateCameraX(float value)
     {
-        Vector3 currentRotation = cameraTransform.localEulerAngles;
-        float newXRotation = currentRotation.x + (value * Time.deltaTime);
+        cameraXRotation += value * Time.deltaTime;
+        cameraXRotation = Mathf.Clamp(cameraXRotation, MIN_CAMERA_X, MAX_CAMERA_X);
 
-        if (newXRotation > 180)
-            newXRotation -= 360;
-
-        newXRotation = Mathf.Clamp(newXRotation, MIN_CAMERA_X, MAX_CAMERA_X);
-
-        cameraTransform.localEulerAngles = new Vector3(newXRotation, currentRotation.y, currentRotation.z);
+        cameraTransform.localRotation = Quaternion.Euler(cameraXRotation, 0f, 0f);
+        spine.localRotation = Quaternion.Euler(cameraXRotation, 0f, 0f);
     }
+
 
     //private void CheckFalling()
     //{
@@ -162,5 +172,5 @@ public class PlayerController : MonoBehaviour
     //    if (animationName.StartsWith("On")) anim.SetTrigger(animation.ToString());
     //    else if (animationName.StartsWith("Is")) anim.SetBool(animation.ToString(), isTrue);
     //}
-    
+
 }

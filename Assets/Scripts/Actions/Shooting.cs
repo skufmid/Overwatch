@@ -21,11 +21,12 @@ public class Shooting : MonoBehaviour
         anim.SetBool("IsShoot", isShoot);
     }
 
-    private void OnAnimatorIK(int layerIndex)
-    {
-        anim.SetIKPositionWeight(AvatarIKGoal.RightHand, 1f);
-        anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1f);
-        anim.SetIKRotationWeight(AvatarIKGoal.RightHand, 1f);
-        anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1f);
-    }
+    //private void OnAnimatorIK(int layerIndex)
+    //{
+    //    anim.SetIKPositionWeight(AvatarIKGoal.RightHand, 0.5f);
+    //    anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 0.5f);
+
+    //    anim.SetIKRotationWeight(AvatarIKGoal.RightHand, 0.5f);
+    //    anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0.5f);
+    //}
 }

@@ -5,6 +5,9 @@ using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
+    private Animator anim;
+    private Rigidbody rb;
+
     private Movement movement;
     private Rotation rotation;
     private Jumping jumping;
@@ -38,6 +41,9 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
+
         movement = gameObject.AddComponent<Movement>();
         rotation = gameObject.AddComponent<Rotation>();
         jumping = gameObject.AddComponent<Jumping>();
@@ -86,6 +92,7 @@ public class PlayerController : MonoBehaviour
         HandleMove();
         HandleRotate();
 
+        //CheckFalling();
     }
 
     private void HandleMove()
@@ -125,5 +132,24 @@ public class PlayerController : MonoBehaviour
         cameraTransform.localEulerAngles = new Vector3(newXRotation, currentRotation.y, currentRotation.z);
     }
 
+    //private void CheckFalling()
+    //{
+    //    if (rb.linearVelocity.y < -0.1f)
+    //    {
+    //        Animate(Eanimation.OnFall);
+    //        return;
+    //    }
+
+    //    // 공중인데 점핑중이면 점프 애니메이션 실행 아니면 추락 애니메이션 실행
+    //    Animate(jumping.IsJumping ? Eanimation.OnJump : Eanimation.OnFall);
+    //}
+
+    //private void Animate(Eanimation animation, bool isTrue = true)
+    //{
+    //    string animationName = animation.ToString();
+
+    //    if (animationName.StartsWith("On")) anim.SetTrigger(animation.ToString());
+    //    else if (animationName.StartsWith("Is")) anim.SetBool(animation.ToString(), isTrue);
+    //}
     
 }

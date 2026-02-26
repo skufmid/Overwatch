@@ -1,16 +1,23 @@
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private Animator anim;
+
+    const float DEFAULT_SHOOT_INTERVAL = 1f;
+    const int DEFAULT_MAGAZINE_COUNT = 5;
+
+    float shootInterval;
+    int magazineCount;
+
+    private void Awake()
     {
-        
+        anim = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void HandleShoot(bool isShoot)
     {
-        
+        anim.SetBool("IsShoot", isShoot);
     }
 }

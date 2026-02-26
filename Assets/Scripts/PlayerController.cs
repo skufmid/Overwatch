@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private Movement movement;
     private Rotation rotation;
     private Jumping jumping;
+    private Shooting shooting;
 
     private Vector2 moveInput = Vector2.zero;
     private Vector2 rotateInput = Vector2.zero;
@@ -47,6 +48,7 @@ public class PlayerController : MonoBehaviour
         movement = gameObject.AddComponent<Movement>();
         rotation = gameObject.AddComponent<Rotation>();
         jumping = gameObject.AddComponent<Jumping>();
+        shooting = gameObject.AddComponent<Shooting>();
     }
 
 
@@ -83,6 +85,15 @@ public class PlayerController : MonoBehaviour
         if (context.performed && IsGrounded && !jumping.IsJumping)
         {
             jumping.HandleJump();
+        }
+    }
+
+    public void OnShoot(InputAction.CallbackContext context)
+    {
+        if (context.performed || context.canceled)
+        {
+            bool shootInput = context.ReadValueAsButton();
+            shooting.HandleShoot(shootInput);
         }
     }
 

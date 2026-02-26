@@ -4,17 +4,29 @@ public class Movement : MonoBehaviour
 {
     private Animator anim;
 
-    const float DEFAULT_MOVE_SPEED = 3f;
+    const float DEFAULT_WALK_SPEED = 3f;
     const float DEFAULT_RUN_SPEED = 8f;
-    public float MoveSpeed { get; set; } = DEFAULT_MOVE_SPEED;
+
+    float walkSpeed;
+    float runSpeed;
+
+    public float MoveSpeed { get; set; }
     private bool isRunning = false;
     public bool IsRunning {
         get { return isRunning; }
         set
         {
-            MoveSpeed = value ? DEFAULT_RUN_SPEED : DEFAULT_MOVE_SPEED;
+            MoveSpeed = value ? runSpeed : walkSpeed;
             isRunning = value;
         }
+    }
+
+    public Movement()
+    {
+        walkSpeed = DEFAULT_WALK_SPEED;
+        runSpeed = DEFAULT_RUN_SPEED;
+
+        MoveSpeed = DEFAULT_WALK_SPEED;
     }
 
     private void Awake()
@@ -37,8 +49,8 @@ public class Movement : MonoBehaviour
     void Animate()
     {
         anim.SetFloat(
-            "Horizontal", MoveLocalDirection.x * MoveSpeed / DEFAULT_RUN_SPEED, 0.2f, Time.deltaTime);
+            "Horizontal", MoveLocalDirection.x * MoveSpeed / runSpeed, 0.2f, Time.deltaTime);
         anim.SetFloat(
-            "Vertical", MoveLocalDirection.z * MoveSpeed / DEFAULT_RUN_SPEED, 0.2f, Time.deltaTime);
+            "Vertical", MoveLocalDirection.z * MoveSpeed / runSpeed, 0.2f, Time.deltaTime);
     }
 }

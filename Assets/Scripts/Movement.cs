@@ -32,8 +32,8 @@ public class Movement : MonoBehaviour
             MoveDirection * MoveSpeed * Time.deltaTime;
 
         anim.SetFloat(
-            "Horizontal", MoveLocalDirection.x * MoveSpeed / DEFAULT_RUN_SPEED, 0.1f, Time.deltaTime);
+            "Horizontal", MoveLocalDirection.x * MoveSpeed / DEFAULT_RUN_SPEED, 0.2f, Time.deltaTime);
         anim.SetFloat(
-            "Vertical", MoveLocalDirection.z * MoveSpeed / DEFAULT_RUN_SPEED, 0.1f, Time.deltaTime);
+            "Vertical", MoveLocalDirection.z * MoveSpeed / DEFAULT_RUN_SPEED, 0.2f, Time.deltaTime);
     }
 }

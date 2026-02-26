@@ -31,6 +31,11 @@ public class Movement : MonoBehaviour
         transform.position += 
             MoveDirection * MoveSpeed * Time.deltaTime;
 
+        Animate();
+    }
+
+    void Animate()
+    {
         anim.SetFloat(
             "Horizontal", MoveLocalDirection.x * MoveSpeed / DEFAULT_RUN_SPEED, 0.2f, Time.deltaTime);
         anim.SetFloat(

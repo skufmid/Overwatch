@@ -101,7 +101,6 @@ public class PlayerController : MonoBehaviour
         {
             bool shootInput = context.ReadValueAsButton();
             shooting.IsShooting = shootInput;
-            Debug.Log("IsShooing : " + shootInput);
         }
     }
 

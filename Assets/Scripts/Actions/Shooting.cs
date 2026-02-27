@@ -9,6 +9,7 @@ public class Shooting : MonoBehaviour
 
     const float DEFAULT_SHOOT_INTERVAL = 0.8f;
     const int DEFAULT_MAGAZINE_COUNT = 5;
+    const int HIT_TARGET_LAYER = 1 << 7;
 
     public float shootInterval;
     private float shootTimer = 0f; // 0이하면 shooting 가능
@@ -84,7 +85,7 @@ public class Shooting : MonoBehaviour
     {
         Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         
-        if (Physics.Raycast(ray, out RaycastHit hit, max_range))
+        if (Physics.Raycast(ray, out RaycastHit hit, max_range, HIT_TARGET_LAYER))
         {
             float distance = hit.distance;
             HitTarget target = hit.collider.GetComponent<HitTarget>();

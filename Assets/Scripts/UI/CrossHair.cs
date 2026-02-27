@@ -12,6 +12,5 @@ public class CrossHair : MonoBehaviour
 
         GUI.DrawTexture(new Rect(x - thickness / 2, y - size, thickness, size * 2), Texture2D.whiteTexture);
         GUI.DrawTexture(new Rect(x - size, y - thickness / 2, size * 2, thickness), Texture2D.whiteTexture);
-
     }
 }

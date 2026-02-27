@@ -100,7 +100,8 @@ public class PlayerController : MonoBehaviour
         if (context.performed || context.canceled)
         {
             bool shootInput = context.ReadValueAsButton();
-            shooting.HandleShoot(shootInput);
+            shooting.IsShooting = shootInput;
+            Debug.Log("IsShooing : " + shootInput);
         }
     }
 

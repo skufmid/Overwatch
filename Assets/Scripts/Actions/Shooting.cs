@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
@@ -5,28 +6,67 @@ public class Shooting : MonoBehaviour
 {
     private Animator anim;
 
-    const float DEFAULT_SHOOT_INTERVAL = 1f;
+    const float DEFAULT_SHOOT_INTERVAL = 0.8f;
     const int DEFAULT_MAGAZINE_COUNT = 5;
 
-    float shootInterval;
+    public float shootInterval;
+    private float shootTimer = 0f; // 0이하면 shooting 가능
+
     int magazineCount;
+
+    private bool isShooting = false;
+    public bool IsShooting
+    {
+        set
+        {
+            isShooting = value;
+            HandleShoot(value);
+        }
+        get
+        {
+            return isShooting;
+        }
+    }
+
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
+
+        shootInterval = DEFAULT_SHOOT_INTERVAL;
     }
 
     public void HandleShoot(bool isShoot)
     {
-        anim.SetBool("IsShoot", isShoot);
+        if (isShoot && shootTimer <= 0)
+        {
+            anim.SetTrigger("OnShoot");
+            Debug.Log("Shoot!");
+
+            StartCoroutine(CoShootTimer());
+        }
+        else
+        {
+            if (shootTimer < 0)
+            {
+                shootTimer = 0;
+            }
+        }
     }
 
-    //private void OnAnimatorIK(int layerIndex)
-    //{
-    //    anim.SetIKPositionWeight(AvatarIKGoal.RightHand, 0.5f);
-    //    anim.SetIKPositionWeight(AvatarIKGoal.LeftHand, 0.5f);
+    IEnumerator CoShootTimer()
+    {
+        shootTimer += shootInterval;
 
-    //    anim.SetIKRotationWeight(AvatarIKGoal.RightHand, 0.5f);
-    //    anim.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0.5f);
-    //}
+        while (true)
+        {
+            shootTimer -= Time.deltaTime;
+            if (shootTimer <= 0)
+            {
+                HandleShoot(IsShooting);
+                break;
+            }
+            yield return null;
+        }
+    }
 }

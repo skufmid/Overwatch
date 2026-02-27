@@ -18,8 +18,6 @@ public class PlayerController : MonoBehaviour
     private Vector2 moveInput = Vector2.zero;
     private Vector2 rotateInput = Vector2.zero;
 
-    public float RotateSensitivity { get; set; } = 10f;
-
     private float cameraXRotation = 0f;
 
     public bool IsGrounded
@@ -110,13 +108,9 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         HandleMove();
+        HandleRotate();
 
         //CheckFalling();
-    }
-
-    private void LateUpdate()
-    {
-        HandleRotate();
     }
 
     private void HandleMove()
@@ -138,9 +132,9 @@ public class PlayerController : MonoBehaviour
     private void HandleRotate()
     {
         rotation.RotateDirection =
-            new Vector3(0, rotateInput.x, 0) * RotateSensitivity;
+            new Vector3(-rotateInput.y, rotateInput.x, 0);
 
-        RotateCameraX(-rotateInput.y * RotateSensitivity);
+        //RotateCameraX(-rotateInput.y);
     }
 
     private void RotateCameraX(float value)

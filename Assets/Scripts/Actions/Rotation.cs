@@ -3,11 +3,70 @@ using UnityEngine;
 public class Rotation : MonoBehaviour
 {
     public Vector3 RotateDirection { get; set; } = Vector3.zero;
+    public float RotateSensitivity { get; set; } = 10f;
 
-    // Update is called once per frame
-    void Update()
+    private Transform cameraTransform;
+    private Animator anim;
+    private Transform spine;
+
+    float rotationMultiplier;
+
+    Quaternion initialCameraLocalRotation;
+    Quaternion initialSpineRotation;
+
+    float currentCameraPitch = 0f;
+    float currentCameraYaw = 0f;
+    float spineCameraPitchOffset = 0f;
+
+    private void Awake()
     {
-        transform.rotation *= 
-            Quaternion.Euler(RotateDirection * Time.deltaTime);
+        anim = GetComponent<Animator>();
+
+        spine = spine = anim.GetBoneTransform(HumanBodyBones.Spine);
     }
+
+    private void Start()
+    {
+        cameraTransform = GetComponentInChildren<Camera>().transform;
+
+        rotationMultiplier = RotateSensitivity * Time.deltaTime;
+
+        initialCameraLocalRotation = cameraTransform.localRotation;
+        initialSpineRotation = spine.rotation;
+        currentCameraPitch = initialCameraLocalRotation.eulerAngles.x;
+        currentCameraYaw = initialCameraLocalRotation.eulerAngles.y;
+
+        spineCameraPitchOffset = currentCameraPitch - initialSpineRotation.eulerAngles.x;
+    }
+
+    void LateUpdate()
+    {
+        SyncSpineToCamera();
+        RotateBodyYaw();
+        RotateCameraPitch();
+    }
+
+    private void OnAnimatorIK(int layerIndex)
+    {
+    }
+
+    void RotateBodyYaw()
+    {
+        transform.Rotate(0, RotateDirection.y * rotationMultiplier, 0);
+    }
+
+    void RotateCameraPitch()
+    {
+        float pitchDelta = RotateDirection.x * rotationMultiplier;
+        currentCameraPitch = Mathf.Clamp(currentCameraPitch + pitchDelta, -85f, 45f);
+
+        cameraTransform.localRotation = Quaternion.Euler(currentCameraPitch, initialCameraLocalRotation.y, initialCameraLocalRotation.z);
+    }
+
+    void SyncSpineToCamera()
+    {
+        spine.localRotation = Quaternion.Euler(currentCameraPitch + spineCameraPitchOffset, 0, 0)
+            * spine.localRotation;
+    }
+
 }

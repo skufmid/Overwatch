@@ -1,9 +1,12 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
 public abstract class _Character : MonoBehaviour
 {
     // Todo : 체력, 피격 이벤트, 피격시 UI, 이펙트, 소리
+    private Animator anim;
+
     public int MaxHP { get; protected set; } = 100;
     private int hp;
     public int HP {
@@ -23,7 +26,13 @@ public abstract class _Character : MonoBehaviour
 
     public int Armor { get; protected set; } = 0;
 
-    private void Start()
+    protected virtual void Awake()
+    {
+        anim = GetComponent<Animator>();
+
+    }
+
+    protected void Start()
     {
         HP = MaxHP;
     }
@@ -33,6 +42,7 @@ public abstract class _Character : MonoBehaviour
         int finalDamage = damage - Armor;
         HP -= finalDamage;
         Debug.Log($"HP: {HP}\t finalDamage: {damage} - {Armor} = {finalDamage}");
+        anim.SetTrigger("OnHit");
     }
 
     public void Die()

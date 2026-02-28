@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 154271123200068059, guid: aa0b200a1182bcc4092d7f1e91ac5ef8, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1026524331674624533, guid: aa0b200a1182bcc4092d7f1e91ac5ef8, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1559227821709909133, guid: aa0b200a1182bcc4092d7f1e91ac5ef8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -50,7 +58,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2227221183896258103, guid: aa0b200a1182bcc4092d7f1e91ac5ef8, type: 3}
       propertyPath: m_Name
-      value: Character
+      value: 01~02EnemyCharacter
+      objectReference: {fileID: 0}
+    - target: {fileID: 3355846444910836928, guid: aa0b200a1182bcc4092d7f1e91ac5ef8, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5027437340160560910, guid: aa0b200a1182bcc4092d7f1e91ac5ef8, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

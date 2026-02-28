@@ -84,15 +84,14 @@ public class Shooting : MonoBehaviour
     private void Shoot()
     {
         Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
-        
-        if (Physics.Raycast(ray, out RaycastHit hit, max_range, HIT_TARGET_LAYER))
+
+        if (Physics.Raycast(ray, out RaycastHit hit, max_range))
         {
             float distance = hit.distance;
             HitTarget target = hit.collider.GetComponent<HitTarget>();
             if (target != null)
             {
-
-                float damage = Mathf.Lerp(max_damage, min_damage, distance / max_damage);
+                float damage = Mathf.Lerp(max_damage, min_damage, distance / max_range);
                 damage = Mathf.Clamp(damage, min_damage, max_damage);
                 target.GetHit(damage);
             }

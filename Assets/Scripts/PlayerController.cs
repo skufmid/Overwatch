@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -12,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private Rotation rotation;
     private Jumping jumping;
     private Shooting shooting;
+    private Flash flash;
 
     private Transform spine;
 
@@ -29,6 +31,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public bool IsMovable { get; set; } = true;
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -40,10 +44,12 @@ public class PlayerController : MonoBehaviour
     const float MIN_CAMERA_X = -85f;
     const float MAX_CAMERA_X = 45f;
 
-    [SerializeField] Transform cameraTransform;
+    private Transform cameraTransform;
 
     private void Awake()
     {
+        cameraTransform = Camera.main.transform;
+
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
 
@@ -51,6 +57,7 @@ public class PlayerController : MonoBehaviour
         rotation = gameObject.AddComponent<Rotation>();
         jumping = gameObject.AddComponent<Jumping>();
         shooting = gameObject.AddComponent<Shooting>();
+        flash = gameObject.AddComponent<Flash>();
     }
 
     private void Start()
@@ -61,7 +68,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (context.performed || context.canceled)
+        if ((context.performed || context.canceled ) && IsMovable)
         {
             moveInput = context.ReadValue<Vector2>();
         }
@@ -69,7 +76,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnRun(InputAction.CallbackContext context)
     {
-        if (context.performed && IsGrounded && !jumping.IsJumping)
+        if ((context.performed && IsGrounded && !jumping.IsJumping) && IsMovable)
         {
             movement.IsRunning = true;
         }
@@ -89,7 +96,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.performed && IsGrounded && !jumping.IsJumping)
+        if ((context.performed && IsGrounded && !jumping.IsJumping) && IsMovable)
         {
             jumping.HandleJump();
         }
@@ -104,12 +111,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnFlash(InputAction.CallbackContext context)
+    {
+        if (context.performed && IsMovable)
+        {
+            HandleFlash();
+        }
+    }
+
 
     private void Update()
     {
         HandleMove();
         HandleRotate();
-
         //CheckFalling();
     }
 
@@ -125,7 +139,7 @@ public class PlayerController : MonoBehaviour
 
         movement.MoveDirection =
             (moveInput.x * cameraRight + moveInput.y * cameraForward).normalized;
-        movement.MoveLocalDirection =
+        movement.MoveRelativeDirection =
             (moveInput.x * Vector3.right + moveInput.y * Vector3.forward);
     }
 
@@ -135,6 +149,24 @@ public class PlayerController : MonoBehaviour
             new Vector3(-rotateInput.y, rotateInput.x, 0);
 
         //RotateCameraX(-rotateInput.y);
+    }
+
+    public void HandleFlash()
+    {
+        Vector3 cameraRight = cameraTransform.right;
+        Vector3 cameraForward = cameraTransform.forward;
+
+        cameraRight.y = 0;
+        cameraForward.y = 0;
+        cameraRight.Normalize();
+        cameraForward.Normalize();
+
+        Vector3 flashDirection =
+            (moveInput.x * cameraRight + moveInput.y * cameraForward).normalized;
+
+        if (flashDirection.Equals(Vector3.zero)) flashDirection = cameraForward.normalized;
+
+        flash.HandleFlash(flashDirection);
     }
 
     private void RotateCameraX(float value)

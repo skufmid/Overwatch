@@ -36,7 +36,7 @@ public class Movement : MonoBehaviour
     }
 
     public Vector3 MoveDirection { get; set; } = Vector3.zero;
-    public Vector3 MoveLocalDirection { get; set;} = Vector3.zero;
+    public Vector3 MoveRelativeDirection { get; set;} = Vector3.zero;
 
     void Update()
     {
@@ -49,8 +49,8 @@ public class Movement : MonoBehaviour
     void Animate()
     {
         anim.SetFloat(
-            "Horizontal", MoveLocalDirection.x * MoveSpeed / runSpeed, 0.2f, Time.deltaTime);
+            "Horizontal", MoveRelativeDirection.x * MoveSpeed / runSpeed, 0.2f, Time.deltaTime);
         anim.SetFloat(
-            "Vertical", MoveLocalDirection.z * MoveSpeed / runSpeed, 0.2f, Time.deltaTime);
+            "Vertical", MoveRelativeDirection.z * MoveSpeed / runSpeed, 0.2f, Time.deltaTime);
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Shooting : MonoBehaviour
 {
     private Animator anim;
-    private Camera camera;
+    private Camera mainCamera;
 
     const float DEFAULT_SHOOT_INTERVAL = 0.8f;
     const int DEFAULT_MAGAZINE_COUNT = 5;
@@ -38,7 +38,7 @@ public class Shooting : MonoBehaviour
     private void Awake()
     {
         anim = GetComponent<Animator>();
-        camera = Camera.main;
+        mainCamera = Camera.main;
 
         shootInterval = DEFAULT_SHOOT_INTERVAL;
     }
@@ -83,7 +83,7 @@ public class Shooting : MonoBehaviour
 
     private void Shoot()
     {
-        Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        Ray ray = mainCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
 
         if (Physics.Raycast(ray, out RaycastHit hit, max_range, HIT_TARGET_LAYER, QueryTriggerInteraction.Collide))
         {

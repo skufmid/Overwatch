@@ -53,6 +53,11 @@ public abstract class _Character : MonoBehaviour
     public void Die()
     {
         Debug.Log("HP: 0¿Ã«œ∑Œ ªÁ∏¡");
-        Destroy(gameObject);
+        anim.SetTrigger("OnDie");
+    }
+
+    public void DestroySelf()
+    {
+        Destroy(gameObject, 1f);
     }
 }

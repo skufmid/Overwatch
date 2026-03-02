@@ -7,10 +7,13 @@ public class HpBar : MonoBehaviour
 {
     _Character character;
     Slider slider;
+    [SerializeField] bool isPlayerHpBar = false;
 
     private void Awake()
     {
-        character = transform.root.GetComponent<_Character>();
+        if (isPlayerHpBar) character = GameManager.Instance.Player;
+        else character = transform.root.GetComponent<_Character>();
+
         slider = GetComponent<Slider>();
     }
 

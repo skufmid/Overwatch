@@ -11603,28 +11603,56 @@ PrefabInstance:
       value: Player/Flash
       objectReference: {fileID: 0}
     - target: {fileID: -4945151522355520027, guid: c66062636f294864dbd2c13109046b76, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4945151522355520027, guid: c66062636f294864dbd2c13109046b76, type: 3}
       propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4945151522355520027, guid: c66062636f294864dbd2c13109046b76, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4945151522355520027, guid: c66062636f294864dbd2c13109046b76, type: 3}
       propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4945151522355520027, guid: c66062636f294864dbd2c13109046b76, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 173039388}
+    - target: {fileID: -4945151522355520027, guid: c66062636f294864dbd2c13109046b76, type: 3}
       propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 173039388}
     - target: {fileID: -4945151522355520027, guid: c66062636f294864dbd2c13109046b76, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -4945151522355520027, guid: c66062636f294864dbd2c13109046b76, type: 3}
       propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -4945151522355520027, guid: c66062636f294864dbd2c13109046b76, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnRecall
       objectReference: {fileID: 0}
     - target: {fileID: -4945151522355520027, guid: c66062636f294864dbd2c13109046b76, type: 3}
       propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnFlash
       objectReference: {fileID: 0}
     - target: {fileID: -4945151522355520027, guid: c66062636f294864dbd2c13109046b76, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: -4945151522355520027, guid: c66062636f294864dbd2c13109046b76, type: 3}
       propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: PlayerController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: -4945151522355520027, guid: c66062636f294864dbd2c13109046b76, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: -4945151522355520027, guid: c66062636f294864dbd2c13109046b76, type: 3}
       propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -11672,6 +11700,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4564151256707515946, guid: c66062636f294864dbd2c13109046b76, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8332751210848670299, guid: c66062636f294864dbd2c13109046b76, type: 3}
+      propertyPath: m_Antialiasing
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

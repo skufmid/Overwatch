@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private Jumping jumping;
     private Shooting shooting;
     private Flash flash;
+    private Recall recall;
 
     private Transform spine;
 
@@ -32,6 +33,8 @@ public class PlayerController : MonoBehaviour
     }
 
     public bool IsMovable { get; set; } = true;
+    public bool IsRotatable { get; set; } = true;
+    public bool IsShootable { get; set; } = true;
 
     private void OnDrawGizmos()
     {
@@ -57,6 +60,8 @@ public class PlayerController : MonoBehaviour
         rotation = gameObject.AddComponent<Rotation>();
         jumping = gameObject.AddComponent<Jumping>();
         shooting = gameObject.AddComponent<Shooting>();
+        recall = gameObject.AddComponent<Recall>();
+
         flash = gameObject.GetComponent<Flash>();
     }
 
@@ -68,15 +73,16 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        if ((context.performed || context.canceled ) && IsMovable)
+        if (context.performed || context.canceled )
         {
-            moveInput = context.ReadValue<Vector2>();
+            if (IsMovable) moveInput = context.ReadValue<Vector2>();
+            else moveInput = Vector2.zero;
         }
     }
 
     public void OnRun(InputAction.CallbackContext context)
     {
-        if ((context.performed && IsGrounded && !jumping.IsJumping) && IsMovable)
+        if (context.performed && IsGrounded && !jumping.IsJumping)
         {
             movement.IsRunning = true;
         }
@@ -88,7 +94,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnRotate(InputAction.CallbackContext context)
     {
-        if (context.performed || context.canceled)
+        if ((context.performed || context.canceled) && IsRotatable)
         {
             rotateInput = context.ReadValue<Vector2>();
         }
@@ -96,9 +102,9 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if ((context.performed && IsGrounded && !jumping.IsJumping) && IsMovable)
+        if (context.performed && IsGrounded && !jumping.IsJumping)
         {
-            jumping.HandleJump();
+            if (IsMovable) jumping.HandleJump();
         }
     }
 
@@ -107,15 +113,25 @@ public class PlayerController : MonoBehaviour
         if (context.performed || context.canceled)
         {
             bool shootInput = context.ReadValueAsButton();
+            if (!IsShootable) shootInput = false;
+
             shooting.IsShooting = shootInput;
         }
     }
 
     public void OnFlash(InputAction.CallbackContext context)
     {
-        if (context.performed && IsMovable)
+        if (context.performed)
         {
-            HandleFlash();
+            if (IsMovable) HandleFlash();
+        }
+    }
+
+    public void OnRecall(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (IsMovable) recall.HandleRecall();
         }
     }
 

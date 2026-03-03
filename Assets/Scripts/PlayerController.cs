@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
         rotation = gameObject.AddComponent<Rotation>();
         jumping = gameObject.AddComponent<Jumping>();
         shooting = gameObject.AddComponent<Shooting>();
-        flash = gameObject.AddComponent<Flash>();
+        flash = gameObject.GetComponent<Flash>();
     }
 
     private void Start()

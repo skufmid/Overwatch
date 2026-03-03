@@ -6,19 +6,19 @@ using UnityEngine;
 public class Recall : MonoBehaviour
 {
     private PlayerController playerController;
-    public struct PointInTime
+    public struct StatusInTime
     {
         public Vector3 position;
         public Quaternion rotation;
 
-        public PointInTime(Vector3 _position, Quaternion _rotation)
+        public StatusInTime(Vector3 _position, Quaternion _rotation)
         {
             position = _position;
             rotation = _rotation;
         }
     }
 
-    private LinkedList<PointInTime> pointsInTime = new LinkedList<PointInTime>();
+    private LinkedList<StatusInTime> pointsInTime = new LinkedList<StatusInTime>();
     private float recordTime = 3f;
     private WaitForSeconds fixedDeltaTime3 = new WaitForSeconds(0.02f * 3);
 
@@ -44,10 +44,9 @@ public class Recall : MonoBehaviour
                 StartCoroutine(Record());
             }
         }
-
     }
 
-    int maxStorage;
+    private int maxStorage;
 
     private void Awake()
     {
@@ -74,7 +73,7 @@ public class Recall : MonoBehaviour
             {
                 pointsInTime.RemoveFirst();
             }
-            pointsInTime.AddLast(new PointInTime(transform.position, transform.rotation));
+            pointsInTime.AddLast(new StatusInTime(transform.position, transform.rotation));
 
             yield return fixedDeltaTime3;
         }
@@ -86,7 +85,7 @@ public class Recall : MonoBehaviour
         Debug.Log("Rewinding");
         while (pointsInTime.Count > 0)
         {
-            PointInTime point = pointsInTime.Last.Value;
+            StatusInTime point = pointsInTime.Last.Value;
 
             transform.position = point.position;
             transform.rotation = point.rotation;

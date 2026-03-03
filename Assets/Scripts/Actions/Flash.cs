@@ -1,6 +1,6 @@
 using System.Collections;
-using Unity.Loading;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Flash : MonoBehaviour
 {
@@ -9,6 +9,7 @@ public class Flash : MonoBehaviour
 
     float flash_distance;
     float flash_interval;
+
     float flash_timer = 0f; // 0이하면 flash 가능
 
     public Flash()
@@ -29,7 +30,22 @@ public class Flash : MonoBehaviour
             Debug.LogWarning("Flash direction should be normalized. Flash may not work as expected.");
 
         StartCoroutine(CoFlashTimer());
-        transform.position += flashDirection * flash_distance;
+
+        Vector3 targetPosition = transform.position + flashDirection * flash_distance;
+        transform.position = GetNearestNavMeshPoint(targetPosition, flash_distance);
+    }
+
+    private Vector3 GetNearestNavMeshPoint(Vector3 targetPosition, float maxDistance)
+    {
+        NavMeshHit hit;
+
+        int walkableAreaIndex = NavMesh.GetAreaFromName("Walkable");
+        int mask = 1 << walkableAreaIndex;
+        if (NavMesh.SamplePosition(targetPosition, out hit, maxDistance, mask))
+        {
+            return hit.position;
+        }
+        return transform.position; // 이동할 수 없다면 제자리 점멸
     }
 
     IEnumerator CoFlashTimer()

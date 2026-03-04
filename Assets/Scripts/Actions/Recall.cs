@@ -1,11 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class Recall : MonoBehaviour
+public class Recall : MonoBehaviour, ISkill
 {
-    private PlayerController playerController;
     public struct StatusInTime
     {
         public Vector3 position;
@@ -17,6 +16,8 @@ public class Recall : MonoBehaviour
             rotation = _rotation;
         }
     }
+
+    private PlayerController playerController;
 
     private LinkedList<StatusInTime> pointsInTime = new LinkedList<StatusInTime>();
     private float recordTime = 3f;
@@ -48,11 +49,21 @@ public class Recall : MonoBehaviour
 
     private int maxStorage;
 
+    public float DefaultInterval => 6f;
+
+    public float Interval { get; private set; }
+    public float Timer { get; private set; } = 0; // 0이하면 recall 가능
+    public int CurrentCount { get; private set; }
+
+    public Action<bool> OnEnableSkill { get; set; }
+    public Action<int> OnCountChanged { get; set; }
+
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
 
         maxStorage = Mathf.RoundToInt(recordTime / (Time.fixedDeltaTime * 3));
+        Interval = DefaultInterval;
     }
 
     private void Start()
@@ -62,6 +73,7 @@ public class Recall : MonoBehaviour
 
     public void HandleRecall()
     {
+        if (Timer > 0) return;
         StartCoroutine(Rewind());
     }
 
@@ -96,5 +108,27 @@ public class Recall : MonoBehaviour
         }
 
         IsRewinding = false;
+        StartCoroutine(CoTimer());
+    }
+
+    IEnumerator CoTimer()
+    {
+        Timer = Interval;
+        OnEnableSkill?.Invoke(false);
+
+        while (Timer > 0)
+        {
+            Timer -= Time.deltaTime;
+            int count = Mathf.CeilToInt(Timer);
+            if (CurrentCount != count)
+            {
+                CurrentCount = count;
+                OnCountChanged?.Invoke(CurrentCount);
+            }
+            yield return null;
+        }
+
+        Timer = 0;
+        OnEnableSkill?.Invoke(true);
     }
 }

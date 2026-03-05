@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    private Animator anim;
+    private Animator worldModelAnim;
+    private Animator viewModelAnim;
 
     const float DEFAULT_WALK_SPEED = 3f;
     const float DEFAULT_RUN_SPEED = 8f;
@@ -31,8 +32,9 @@ public class Movement : MonoBehaviour
 
     private void Awake()
     {
-        anim = GetComponent<Animator>();
-
+        worldModelAnim = GetComponent<Animator>();
+        viewModelAnim = GetComponentInChildren<Camera>()
+            ?.GetComponentInChildren<Animator>();
     }
 
     public Vector3 MoveDirection { get; set; } = Vector3.zero;
@@ -48,9 +50,11 @@ public class Movement : MonoBehaviour
 
     void Animate()
     {
-        anim.SetFloat(
-            "Horizontal", MoveRelativeDirection.x * MoveSpeed / runSpeed, 0.2f, Time.deltaTime);
-        anim.SetFloat(
-            "Vertical", MoveRelativeDirection.z * MoveSpeed / runSpeed, 0.2f, Time.deltaTime);
+        Utility.SetFloat(
+            worldModelAnim, viewModelAnim, "Horizontal",
+            MoveRelativeDirection.x * MoveSpeed / runSpeed, 0.2f, Time.deltaTime);
+        Utility.SetFloat(
+            worldModelAnim, viewModelAnim, "Vertical",
+            MoveRelativeDirection.z * MoveSpeed / runSpeed, 0.2f, Time.deltaTime);
     }
 }

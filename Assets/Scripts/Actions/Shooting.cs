@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
-    private Animator anim;
+    private Animator worldModelAnim;
+    private Animator viewModelAnim;
     private Camera mainCamera;
 
     const float DEFAULT_SHOOT_INTERVAL = 0.8f;
-    const int DEFAULT_MAGAZINE_COUNT = 5;
     const int HIT_TARGET_LAYER = 1 << 7;
 
     public float shootInterval;
@@ -17,8 +17,6 @@ public class Shooting : MonoBehaviour
     private float max_range = 50f;
     private float max_damage = 50f;
     private float min_damage = 5f;
-
-    int magazineCount;
 
     private bool isShooting = false;
     public bool IsShooting
@@ -37,21 +35,19 @@ public class Shooting : MonoBehaviour
 
     private void Awake()
     {
-        anim = GetComponent<Animator>();
+        worldModelAnim = GetComponent<Animator>();
+        viewModelAnim = GetComponentInChildren<Camera>()
+            ?.GetComponentInChildren<Animator>();
         mainCamera = Camera.main;
 
         shootInterval = DEFAULT_SHOOT_INTERVAL;
-    }
-
-    private void Start()
-    {
     }
 
     public void HandleShoot(bool isShoot)
     {
         if (isShoot && shootTimer <= 0)
         {
-            anim.SetTrigger("OnShoot");
+            Utility.SetTrigger(worldModelAnim, viewModelAnim, "OnShoot");
             Shoot();
 
             StartCoroutine(CoShootTimer());

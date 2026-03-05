@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
-    private Animator anim;
+    private Animator WorldModelAnim;
     private Rigidbody rb;
 
     private Movement movement;
@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
     {
         cameraTransform = Camera.main.transform;
 
-        anim = GetComponent<Animator>();
+        WorldModelAnim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
 
         movement = gameObject.AddComponent<Movement>();
@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        spine = anim.GetBoneTransform(HumanBodyBones.Spine);
+        spine = WorldModelAnim.GetBoneTransform(HumanBodyBones.Spine);
     }
 
 
@@ -193,26 +193,4 @@ public class PlayerController : MonoBehaviour
         cameraTransform.localRotation = Quaternion.Euler(cameraXRotation, 0f, 0f);
         spine.localRotation = Quaternion.Euler(cameraXRotation, 0f, 0f);
     }
-
-
-    //private void CheckFalling()
-    //{
-    //    if (rb.linearVelocity.y < -0.1f)
-    //    {
-    //        Animate(Eanimation.OnFall);
-    //        return;
-    //    }
-
-    //    // 공중인데 점핑중이면 점프 애니메이션 실행 아니면 추락 애니메이션 실행
-    //    Animate(jumping.IsJumping ? Eanimation.OnJump : Eanimation.OnFall);
-    //}
-
-    //private void Animate(Eanimation animation, bool isTrue = true)
-    //{
-    //    string animationName = animation.ToString();
-
-    //    if (animationName.StartsWith("On")) anim.SetTrigger(animation.ToString());
-    //    else if (animationName.StartsWith("Is")) anim.SetBool(animation.ToString(), isTrue);
-    //}
-
 }

@@ -6,7 +6,7 @@ public class Rotation : MonoBehaviour
     public float RotateSensitivity { get; set; } = 10f;
 
     private Transform cameraTransform;
-    private Animator anim;
+    private Animator WorldModelAnim;
     private Transform spine;
 
     float rotationMultiplier;
@@ -20,9 +20,9 @@ public class Rotation : MonoBehaviour
 
     private void Awake()
     {
-        anim = GetComponent<Animator>();
+        WorldModelAnim = GetComponent<Animator>();
 
-        spine = spine = anim.GetBoneTransform(HumanBodyBones.Spine);
+        spine = spine = WorldModelAnim.GetBoneTransform(HumanBodyBones.Spine);
     }
 
     private void Start()

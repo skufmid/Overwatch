@@ -7,7 +7,8 @@ public abstract class _Character : MonoBehaviour
     public Action<int> OnHit;
     public Action OnHpChanged;
 
-    private Animator anim;
+    private Animator worldModelAnim;
+    private Animator viewModelAnim;
 
     public int MaxHP { get; protected set; } = 100;
 
@@ -31,7 +32,9 @@ public abstract class _Character : MonoBehaviour
 
     protected virtual void Awake()
     {
-        anim = GetComponent<Animator>();
+        worldModelAnim = GetComponent<Animator>();
+        viewModelAnim = GetComponentInChildren<Camera>()
+            ?.GetComponentInChildren<Animator>();
     }
 
     protected void Start()
@@ -44,7 +47,7 @@ public abstract class _Character : MonoBehaviour
         int finalDamage = damage - Armor;
         HP -= finalDamage;
         Debug.Log($"HP: {HP}\t finalDamage: {damage} - {Armor} = {finalDamage}");
-        anim.SetTrigger("OnHit");
+        Utility.SetTrigger(worldModelAnim, viewModelAnim, "OnHit");
 
         OnHit?.Invoke(damage);
         OnHpChanged?.Invoke();
@@ -53,7 +56,7 @@ public abstract class _Character : MonoBehaviour
     public void Die()
     {
         Debug.Log("HP: 0¿Ã«œ∑Œ ªÁ∏¡");
-        anim.SetTrigger("OnDie");
+        Utility.SetTrigger(worldModelAnim, viewModelAnim, "OnDie");
     }
 
     public void DestroySelf()

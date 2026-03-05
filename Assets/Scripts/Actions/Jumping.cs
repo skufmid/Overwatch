@@ -19,7 +19,7 @@ public class Jumping : MonoBehaviour
     public void HandleJump()
     {
         GetComponent<Rigidbody>().AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
-        Animate(Eanimation.OnJump);
+        Utility.SetAnimations("OnJump", ParameterType.Trigger);
 
         IsJumping = true;
         StartCoroutine(ResetJumping());
@@ -45,7 +45,7 @@ public class Jumping : MonoBehaviour
         {
             if (rb.linearVelocity.y > -0.1f)
             {
-                Animate(Eanimation.OnLand);
+                Utility.SetAnimations("OnLand", ParameterType.Trigger);
                 IsJumping = false;
                 break;
             }
@@ -57,7 +57,9 @@ public class Jumping : MonoBehaviour
     {
         string animationName = animation.ToString();
 
-        if (animationName.StartsWith("On")) anim.SetTrigger(animation.ToString());
-        else if (animationName.StartsWith("Is")) anim.SetBool(animation.ToString(), isTrue);
+        if (animationName.StartsWith("On")) 
+            Utility.SetAnimations(animation.ToString(), ParameterType.Trigger);
+        else if (animationName.StartsWith("Is"))
+            Utility.SetAnimations(animation.ToString(), ParameterType.Bool, isTrue);
     }
 }

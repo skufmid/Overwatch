@@ -5277,6 +5277,7 @@ GameObject:
   m_Component:
   - component: {fileID: 785021440}
   - component: {fileID: 785021439}
+  - component: {fileID: 785021441}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -5311,6 +5312,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &785021441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785021438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d92594ed6b1ac1649a3a7cd674e0420a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &801047906
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12093,6 +12106,10 @@ PrefabInstance:
     - target: {fileID: 4564151256707515946, guid: c66062636f294864dbd2c13109046b76, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8412440252949550668, guid: c66062636f294864dbd2c13109046b76, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

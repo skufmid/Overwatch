@@ -18,5 +18,6 @@ public class GameManager : MonoBehaviour
         }
 
         Player = FindAnyObjectByType<PlayerCharacter>();
+
     }
 }

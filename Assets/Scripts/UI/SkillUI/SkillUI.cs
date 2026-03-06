@@ -35,6 +35,6 @@ public class SkillUI<T> : MonoBehaviour where T : ISkill
 
     private void UpdateEnable(bool isEnable)
     {
-        image.color = isEnable ? Color.white : Utility.darkColor;
+        image.color = isEnable ? Color.white : Utility.disableColor;
     }
 }

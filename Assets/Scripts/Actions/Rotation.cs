@@ -58,7 +58,7 @@ public class Rotation : MonoBehaviour
     void RotateCameraPitch()
     {
         float pitchDelta = RotateDirection.x * rotationMultiplier;
-        currentCameraPitch = Mathf.Clamp(currentCameraPitch + pitchDelta, -85f, 45f);
+        currentCameraPitch = Mathf.Clamp(currentCameraPitch + pitchDelta, -89f, 89f);
 
         cameraTransform.localRotation = Quaternion.Euler(currentCameraPitch, initialCameraLocalRotation.y, initialCameraLocalRotation.z);
     }

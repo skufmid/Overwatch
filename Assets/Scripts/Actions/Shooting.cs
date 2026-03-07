@@ -7,7 +7,7 @@ public class Shooting : MonoBehaviour
     private Animator worldModelAnim;
     private Animator viewModelAnim;
 
-    const float DEFAULT_SHOOT_INTERVAL = 0.8f;
+    const float DEFAULT_SHOOT_INTERVAL = 0.3f;
     const int HIT_TARGET_LAYER = 1 << 7;
 
     public float shootInterval;

@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Rotation : MonoBehaviour
 {
+    const float SPINE_PITCH_MULTIPLIER = 0.3f;
+
     public Vector3 RotateDirection { get; set; } = Vector3.zero;
     public float RotateSensitivity { get; set; } = 10f;
 
@@ -15,7 +17,6 @@ public class Rotation : MonoBehaviour
     Quaternion initialSpineRotation;
 
     float currentCameraPitch = 0f;
-    float currentCameraYaw = 0f;
     float spineCameraPitchOffset = 0f;
 
     private void Awake()
@@ -32,9 +33,8 @@ public class Rotation : MonoBehaviour
         rotationMultiplier = RotateSensitivity * Time.deltaTime;
 
         initialCameraLocalRotation = cameraTransform.localRotation;
-        initialSpineRotation = spine.rotation;
+        initialSpineRotation = spine.localRotation;
         currentCameraPitch = initialCameraLocalRotation.eulerAngles.x;
-        currentCameraYaw = initialCameraLocalRotation.eulerAngles.y;
 
         spineCameraPitchOffset = currentCameraPitch - initialSpineRotation.eulerAngles.x;
     }
@@ -65,7 +65,8 @@ public class Rotation : MonoBehaviour
 
     void SyncSpineToCamera()
     {
-        spine.localRotation = Quaternion.Euler(currentCameraPitch + spineCameraPitchOffset, 0, 0)
+        spine.localRotation = 
+            Quaternion.Euler(SPINE_PITCH_MULTIPLIER * currentCameraPitch + spineCameraPitchOffset, 0, 0)
             * spine.localRotation;
     }
 

@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class Recall : MonoBehaviour, ISkill
 {
@@ -58,12 +60,20 @@ public class Recall : MonoBehaviour, ISkill
     public Action<bool> OnEnableSkill { get; set; }
     public Action<int> OnCountChanged { get; set; }
 
+    [SerializeField] private Volume globalVolume;
+    private ColorAdjustments colorAdjustments;
+
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
 
         maxStorage = Mathf.RoundToInt(recordTime / (Time.fixedDeltaTime * 3));
         Interval = DefaultInterval;
+
+        if (globalVolume.profile.TryGet(out colorAdjustments))
+        {
+            colorAdjustments.saturation.value = 0;
+        }
     }
 
     private void Start()
@@ -94,7 +104,8 @@ public class Recall : MonoBehaviour, ISkill
     IEnumerator Rewind()
     {
         IsRewinding = true;
-        Debug.Log("Rewinding");
+        StartCoroutine(CoFadeEffect(-100f, 2f));
+
         while (pointsInTime.Count > 0)
         {
             StatusInTime point = pointsInTime.Last.Value;
@@ -108,6 +119,7 @@ public class Recall : MonoBehaviour, ISkill
         }
 
         IsRewinding = false;
+        StartCoroutine(CoFadeEffect(0f, 8f));
         StartCoroutine(CoTimer());
     }
 
@@ -130,5 +142,21 @@ public class Recall : MonoBehaviour, ISkill
 
         Timer = 0;
         OnEnableSkill?.Invoke(true);
+    }
+
+    private IEnumerator CoFadeEffect(float targetValue, float transitionSpeed)
+    {
+        float startValue = colorAdjustments.saturation.value;
+        float time = 0;
+
+        while (time < 1f)
+        {
+            time += Time.deltaTime * transitionSpeed;
+            // Lerp를 이용해 부드럽게 값 변경
+            colorAdjustments.saturation.value = Mathf.Lerp(startValue, targetValue, time);
+            yield return null;
+        }
+
+        colorAdjustments.saturation.value = targetValue;
     }
 }

@@ -27,6 +27,13 @@ public class GameManager : MonoBehaviour
         MainCam = fpsCam;
     }
 
+    private void Start()
+    {
+        // 마우스 안보이게 하기
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))

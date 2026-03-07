@@ -44,7 +44,7 @@ public class Recall : MonoBehaviour, ISkill
                 playerController.IsRotatable = true;
                 playerController.IsShootable = true;
 
-                StartCoroutine(Record());
+                StartCoroutine(CoRecord());
             }
         }
     }
@@ -63,6 +63,8 @@ public class Recall : MonoBehaviour, ISkill
     [SerializeField] private Volume globalVolume;
     private ColorAdjustments colorAdjustments;
 
+    Coroutine fadeCoroutine;
+
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
@@ -78,16 +80,16 @@ public class Recall : MonoBehaviour, ISkill
 
     private void Start()
     {
-        StartCoroutine(Record());
+        StartCoroutine(CoRecord());
     }
 
     public void HandleRecall()
     {
         if (Timer > 0) return;
-        StartCoroutine(Rewind());
+        StartCoroutine(CoRewind());
     }
 
-    IEnumerator Record()
+    IEnumerator CoRecord()
     {
         while (!IsRewinding)
         {
@@ -101,10 +103,13 @@ public class Recall : MonoBehaviour, ISkill
         }
     }
 
-    IEnumerator Rewind()
+    IEnumerator CoRewind()
     {
         IsRewinding = true;
-        StartCoroutine(CoFadeEffect(-100f, 2f));
+
+        // 이전에 Fade 효과가 진행 중이었다면 중지하고 새로 시작
+        if (fadeCoroutine != null) { StopCoroutine(fadeCoroutine); }
+        fadeCoroutine = StartCoroutine(CoFadeEffect(-100f, 2f));
 
         while (pointsInTime.Count > 0)
         {
@@ -119,7 +124,11 @@ public class Recall : MonoBehaviour, ISkill
         }
 
         IsRewinding = false;
-        StartCoroutine(CoFadeEffect(0f, 8f));
+
+        // 이전에 Fade 효과가 진행 중이었다면 중지하고 새로 시작
+        if (fadeCoroutine != null) { StopCoroutine(fadeCoroutine); }
+        fadeCoroutine = StartCoroutine(CoFadeEffect(0f, 8f));
+
         StartCoroutine(CoTimer());
     }
 
@@ -144,7 +153,7 @@ public class Recall : MonoBehaviour, ISkill
         OnEnableSkill?.Invoke(true);
     }
 
-    private IEnumerator CoFadeEffect(float targetValue, float transitionSpeed)
+    IEnumerator CoFadeEffect(float targetValue, float transitionSpeed)
     {
         float startValue = colorAdjustments.saturation.value;
         float time = 0;

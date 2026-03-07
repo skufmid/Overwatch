@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public abstract class _Character : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public abstract class _Character : MonoBehaviour
 
     private Animator worldModelAnim;
     private Animator viewModelAnim;
+    private Rig rig;
 
     public int MaxHP { get; protected set; } = 100;
 
@@ -35,6 +37,7 @@ public abstract class _Character : MonoBehaviour
         worldModelAnim = GetComponent<Animator>();
         viewModelAnim = GetComponentInChildren<Camera>()
             ?.GetComponentInChildren<Animator>();
+        rig = GetComponentInChildren<Rig>();
     }
 
     protected void Start()
@@ -56,6 +59,7 @@ public abstract class _Character : MonoBehaviour
     public void Die()
     {
         Debug.Log("HP: 0¿Ã«œ∑Œ ªÁ∏¡");
+        rig.weight = 0f;
         Utility.SetTrigger(worldModelAnim, viewModelAnim, "OnDie");
     }
 

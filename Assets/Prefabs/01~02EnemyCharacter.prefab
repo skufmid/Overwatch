@@ -504,6 +504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3209689b1615524f8324f9cf1863f31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayerHpBar: 0
 --- !u!1001 &130754700321970349
 PrefabInstance:
   m_ObjectHideFlags: 0

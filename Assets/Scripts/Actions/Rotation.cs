@@ -44,7 +44,7 @@ public class Rotation : MonoBehaviour
 
     void LateUpdate()
     {
-        SyncSpineToCamera();
+        //SyncSpineToCamera();
         RotateBodyYaw();
         RotateCameraPitch();
     }

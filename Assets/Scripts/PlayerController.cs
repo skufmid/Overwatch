@@ -47,11 +47,11 @@ public class PlayerController : MonoBehaviour
     const float MIN_CAMERA_X = -85f;
     const float MAX_CAMERA_X = 45f;
 
-    private Transform cameraTransform;
+    private Transform fpsCameraTransform;
 
     private void Awake()
     {
-        cameraTransform = Camera.main.transform;
+        fpsCameraTransform = GameManager.Instance.FPS_Cam.transform;
 
         WorldModelAnim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
@@ -145,8 +145,8 @@ public class PlayerController : MonoBehaviour
 
     private void HandleMove()
     {
-        Vector3 cameraRight = cameraTransform.right;
-        Vector3 cameraForward = cameraTransform.forward;
+        Vector3 cameraRight = fpsCameraTransform.right;
+        Vector3 cameraForward = fpsCameraTransform.forward;
 
         cameraRight.y = 0;
         cameraForward.y = 0;
@@ -169,8 +169,8 @@ public class PlayerController : MonoBehaviour
 
     public void HandleFlash()
     {
-        Vector3 cameraRight = cameraTransform.right;
-        Vector3 cameraForward = cameraTransform.forward;
+        Vector3 cameraRight = fpsCameraTransform.right;
+        Vector3 cameraForward = fpsCameraTransform.forward;
 
         cameraRight.y = 0;
         cameraForward.y = 0;
@@ -190,7 +190,7 @@ public class PlayerController : MonoBehaviour
         cameraXRotation += value * Time.deltaTime;
         cameraXRotation = Mathf.Clamp(cameraXRotation, MIN_CAMERA_X, MAX_CAMERA_X);
 
-        cameraTransform.localRotation = Quaternion.Euler(cameraXRotation, 0f, 0f);
+        fpsCameraTransform.localRotation = Quaternion.Euler(cameraXRotation, 0f, 0f);
         spine.localRotation = Quaternion.Euler(cameraXRotation, 0f, 0f);
     }
 }

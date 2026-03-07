@@ -7,7 +7,8 @@ public class Rotation : MonoBehaviour
     public Vector3 RotateDirection { get; set; } = Vector3.zero;
     public float RotateSensitivity { get; set; } = 10f;
 
-    private Transform cameraTransform;
+    private Transform fpsCameraTransform;
+    private Transform tpsCameraTransform;
     private Animator WorldModelAnim;
     private Transform spine;
 
@@ -28,15 +29,17 @@ public class Rotation : MonoBehaviour
 
     private void Start()
     {
-        cameraTransform = GetComponentInChildren<Camera>().transform;
+        fpsCameraTransform = GameManager.Instance.FPS_Cam.transform;
+        tpsCameraTransform = GameManager.Instance.TPS_Cam.transform;
 
         rotationMultiplier = RotateSensitivity * Time.deltaTime;
 
-        initialCameraLocalRotation = cameraTransform.localRotation;
+        initialCameraLocalRotation = fpsCameraTransform.localRotation;
         initialSpineRotation = spine.localRotation;
         currentCameraPitch = initialCameraLocalRotation.eulerAngles.x;
 
         spineCameraPitchOffset = currentCameraPitch - initialSpineRotation.eulerAngles.x;
+        
     }
 
     void LateUpdate()
@@ -60,7 +63,8 @@ public class Rotation : MonoBehaviour
         float pitchDelta = RotateDirection.x * rotationMultiplier;
         currentCameraPitch = Mathf.Clamp(currentCameraPitch + pitchDelta, -89f, 89f);
 
-        cameraTransform.localRotation = Quaternion.Euler(currentCameraPitch, initialCameraLocalRotation.y, initialCameraLocalRotation.z);
+        fpsCameraTransform.localRotation = Quaternion.Euler(currentCameraPitch, initialCameraLocalRotation.y, initialCameraLocalRotation.z);
+        tpsCameraTransform.localRotation = fpsCameraTransform.localRotation;
     }
 
     void SyncSpineToCamera()

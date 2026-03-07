@@ -6,7 +6,6 @@ public class Shooting : MonoBehaviour
 {
     private Animator worldModelAnim;
     private Animator viewModelAnim;
-    private Camera mainCamera;
 
     const float DEFAULT_SHOOT_INTERVAL = 0.8f;
     const int HIT_TARGET_LAYER = 1 << 7;
@@ -36,9 +35,8 @@ public class Shooting : MonoBehaviour
     private void Awake()
     {
         worldModelAnim = GetComponent<Animator>();
-        viewModelAnim = GetComponentInChildren<Camera>()
+        viewModelAnim = GameManager.Instance.FPS_Cam
             ?.GetComponentInChildren<Animator>();
-        mainCamera = Camera.main;
 
         shootInterval = DEFAULT_SHOOT_INTERVAL;
     }
@@ -79,9 +77,11 @@ public class Shooting : MonoBehaviour
 
     private void Shoot()
     {
-        Ray ray = mainCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        Ray ray = GameManager.Instance.MainCam
+            .ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
 
-        if (Physics.Raycast(ray, out RaycastHit hit, max_range, HIT_TARGET_LAYER, QueryTriggerInteraction.Collide))
+        if (Physics.Raycast(
+            ray, out RaycastHit hit, max_range, HIT_TARGET_LAYER, QueryTriggerInteraction.Collide))
         {
             float distance = hit.distance;
             HitTarget target = hit.collider.GetComponent<HitTarget>();

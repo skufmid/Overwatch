@@ -4,7 +4,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
     public PlayerCharacter Player { get; private set; }
-
+    public Camera FPS_Cam => fpsCam;
+    public Camera TPS_Cam => tpsCam;
     [SerializeField] private Camera fpsCam;
     [SerializeField] private Camera tpsCam;
 
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
         }
 
         Player = FindAnyObjectByType<PlayerCharacter>();
+        MainCam = fpsCam;
     }
 
     private void Update()

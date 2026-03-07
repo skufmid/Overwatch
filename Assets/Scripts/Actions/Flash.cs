@@ -5,8 +5,8 @@ using UnityEngine.AI;
 
 public class Flash : MonoBehaviour
 {
-    const float DEFAULT_FLASH_DISTANCE = 10f;
-    const float DEFAULT_FLASH_INTERVAL = 3f;
+    const float DEFAULT_FLASH_DISTANCE = 4f;
+    const float DEFAULT_FLASH_INTERVAL = 2.5f;
     const int DEFAULT_FLASH_MAX_COUNT = 3;
 
     float flash_distance;

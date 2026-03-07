@@ -49,7 +49,7 @@ public class Recall : MonoBehaviour, ISkill
 
     private int maxStorage;
 
-    public float DefaultInterval => 6f;
+    public float DefaultInterval => 4f;
 
     public float Interval { get; private set; }
     public float Timer { get; private set; } = 0; // 0이하면 recall 가능

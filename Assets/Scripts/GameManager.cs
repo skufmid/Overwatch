@@ -33,12 +33,19 @@ public class GameManager : MonoBehaviour
         playerInput = Player.GetComponent<PlayerInput>();
     }
 
+    private void OnEnable()
+    {
+        OnSettings += ChangeCursorVisibility;
+    }
+    
+    private void OnDisable()
+    {
+        OnSettings -= ChangeCursorVisibility;
+    }
 
     private void Start()
     {
-        // 마우스 안보이게 하기
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        ChangeCursorVisibility(false);
     }
 
     private void Update()
@@ -62,5 +69,11 @@ public class GameManager : MonoBehaviour
     public void ChangePlayerInput(bool toUI)
     {
         playerInput.SwitchCurrentActionMap(toUI ? "UI" : "Player");
+    }
+
+    public void ChangeCursorVisibility(bool isVisible)
+    {
+        Cursor.visible = isVisible;
+        Cursor.lockState = isVisible ? CursorLockMode.None : CursorLockMode.Locked;
     }
 }

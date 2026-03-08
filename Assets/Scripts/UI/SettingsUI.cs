@@ -29,4 +29,9 @@ public class SettingsUI : MonoBehaviour
         lastToggleFrame = Time.frameCount;
         GameManager.Instance.ChangePlayerInput(isOpen);
     }
+
+    public void OnCloseButtonClicked()
+    {
+        GameManager.Instance.OnSettings?.Invoke(false);
+    }
 }

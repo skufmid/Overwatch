@@ -5,7 +5,7 @@ public class Rotation : MonoBehaviour
     const float SPINE_PITCH_MULTIPLIER = 0.3f;
 
     public Vector3 RotateDirection { get; set; } = Vector3.zero;
-    public float RotateSensitivity { get; set; } = 10f;
+    public float RotateSensitivity => GameManager.Instance.RotateSensitivity;
 
     private Transform fpsCameraTransform;
     private Transform tpsCameraTransform;
@@ -32,8 +32,6 @@ public class Rotation : MonoBehaviour
         fpsCameraTransform = GameManager.Instance.FPS_Cam.transform;
         tpsCameraTransform = GameManager.Instance.TPS_Cam.transform;
 
-        rotationMultiplier = RotateSensitivity * Time.deltaTime;
-
         initialCameraLocalRotation = fpsCameraTransform.localRotation;
         initialSpineRotation = spine.localRotation;
         currentCameraPitch = initialCameraLocalRotation.eulerAngles.x;
@@ -55,12 +53,12 @@ public class Rotation : MonoBehaviour
 
     void RotateBodyYaw()
     {
-        transform.Rotate(0, RotateDirection.y * rotationMultiplier, 0);
+        transform.Rotate(0, RotateDirection.y * RotateSensitivity * Time.deltaTime, 0);
     }
 
     void RotateCameraPitch()
     {
-        float pitchDelta = RotateDirection.x * rotationMultiplier;
+        float pitchDelta = RotateDirection.x * RotateSensitivity * Time.deltaTime;
         currentCameraPitch = Mathf.Clamp(currentCameraPitch + pitchDelta, -89f, 89f);
 
         fpsCameraTransform.localRotation = Quaternion.Euler(currentCameraPitch, initialCameraLocalRotation.y, initialCameraLocalRotation.z);

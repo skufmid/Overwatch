@@ -4569,6 +4569,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2558633762673160397, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}
+      propertyPath: m_Name
+      value: Mouse Sensitivity Slider
+      objectReference: {fileID: 0}
     - target: {fileID: 2791704334990294209, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4653,6 +4657,58 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -5
       objectReference: {fileID: 0}
+    - target: {fileID: 6076104569561193570, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}
+      propertyPath: m_Name
+      value: Mouse Sensitivity
+      objectReference: {fileID: 0}
+    - target: {fileID: 6826264548886721138, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6826264548886721138, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}
+      propertyPath: m_MaxValue
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6826264548886721138, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}
+      propertyPath: m_MinValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6826264548886721138, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}
+      propertyPath: m_WholeNumbers
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6826264548886721138, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6826264548886721138, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6826264548886721138, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1222343393}
+    - target: {fileID: 6826264548886721138, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6826264548886721138, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSensitivitySliderChanged
+      objectReference: {fileID: 0}
+    - target: {fileID: 6826264548886721138, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SettingsUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6826264548886721138, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932341586964428681, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6932341586964428681, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4690,7 +4746,15 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7530207654982093157, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7530207654982093157, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7530207654982093157, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}
+      propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7770403279040853675, guid: 6f26bbf35ba8c704caf08ddd16bb379e, type: 3}

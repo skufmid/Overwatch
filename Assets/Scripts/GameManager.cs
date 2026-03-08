@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     public Camera MainCam { get; private set; }
 
+    public float RotateSensitivity { get; private set; } = 10f;
     PlayerInput playerInput;
 
     public Action<bool> OnSettings;
@@ -87,5 +88,10 @@ public class GameManager : MonoBehaviour
     {
         Cursor.visible = isVisible;
         Cursor.lockState = isVisible ? CursorLockMode.None : CursorLockMode.Locked;
+    }
+
+    public void ChangeRotateSensitivity(float newSensitivity)
+    {
+        RotateSensitivity = newSensitivity;
     }
 }

@@ -34,4 +34,9 @@ public class SettingsUI : MonoBehaviour
     {
         GameManager.Instance.OnSettings?.Invoke(false);
     }
+
+    public void OnQuitButtonClicked()
+    {
+        GameManager.Instance.QuitGame();
+    }
 }

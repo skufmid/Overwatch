@@ -135,6 +135,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            GameManager.Instance.OnSettings?.Invoke();
+        }
+    }
+
 
     private void Update()
     {

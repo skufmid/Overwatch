@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -11,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     public Camera MainCam { get; private set; }
 
+    public Action OnSettings;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -26,6 +28,7 @@ public class GameManager : MonoBehaviour
         Player = FindAnyObjectByType<PlayerCharacter>();
         MainCam = fpsCam;
     }
+
 
     private void Start()
     {

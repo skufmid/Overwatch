@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,7 +13,9 @@ public class GameManager : MonoBehaviour
 
     public Camera MainCam { get; private set; }
 
-    public Action OnSettings;
+    PlayerInput playerInput;
+
+    public Action<bool> OnSettings;
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -27,6 +30,7 @@ public class GameManager : MonoBehaviour
 
         Player = FindAnyObjectByType<PlayerCharacter>();
         MainCam = fpsCam;
+        playerInput = Player.GetComponent<PlayerInput>();
     }
 
 
@@ -41,10 +45,10 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            ToggleDisplay();
+            ToggleView();
         }
 
-        void ToggleDisplay()
+        void ToggleView()
         {
             bool isFPS = fpsCam.enabled;
 
@@ -53,5 +57,10 @@ public class GameManager : MonoBehaviour
 
             MainCam = fpsCam.enabled ? fpsCam : tpsCam;
         }
+    }
+
+    public void ChangePlayerInput(bool toUI)
+    {
+        playerInput.SwitchCurrentActionMap(toUI ? "UI" : "Player");
     }
 }

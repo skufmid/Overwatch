@@ -3,6 +3,7 @@ using UnityEngine;
 public class SettingsUI : MonoBehaviour
 {
     Canvas canvas;
+    private int lastToggleFrame = -1;
 
     private void Awake()
     {
@@ -19,8 +20,13 @@ public class SettingsUI : MonoBehaviour
         GameManager.Instance.OnSettings -= ToggleSettings;
     }
 
-    private void ToggleSettings()
+    private void ToggleSettings(bool isOpen)
     {
-        canvas.enabled = !canvas.enabled;
+        if (canvas.enabled == isOpen
+            || Time.frameCount == lastToggleFrame) return;
+
+        canvas.enabled = isOpen;
+        lastToggleFrame = Time.frameCount;
+        GameManager.Instance.ChangePlayerInput(isOpen);
     }
 }

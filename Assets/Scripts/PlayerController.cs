@@ -139,7 +139,15 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            GameManager.Instance.OnSettings?.Invoke();
+            GameManager.Instance.OnSettings?.Invoke(true);
+        }
+    }
+
+    public void OnEscape(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            GameManager.Instance.OnSettings?.Invoke(false);
         }
     }
 

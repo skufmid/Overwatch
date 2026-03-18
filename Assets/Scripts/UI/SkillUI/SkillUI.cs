@@ -18,23 +18,23 @@ public class SkillUI<T> : MonoBehaviour where T : ISkill
 
     private void OnEnable()
     {
-        t.OnCountChanged += UpdateCount;
-        t.OnEnableSkill += UpdateEnable;
+        t.OnTimerChanged += UpdateTimer;
+        t.OnChargeChanged += UpdateCharge;
     }
 
     private void OnDisable()
     {
-        t.OnCountChanged -= UpdateCount;
-        t.OnEnableSkill -= UpdateEnable;
+        t.OnTimerChanged -= UpdateTimer;
+        t.OnChargeChanged -= UpdateCharge;
     }
 
-    private void UpdateCount(int count)
+    private void UpdateTimer(int timer)
     {
-        cooldownText.text = count > 0 ? count.ToString() : string.Empty;
+        cooldownText.text = timer > 0 ? timer.ToString() : string.Empty;
     }
 
-    private void UpdateEnable(bool isEnable)
+    private void UpdateCharge(int charge)
     {
-        image.color = isEnable ? Color.white : Utility.disableColor;
+        image.color = charge > 0 ? Color.white : Utility.disableColor;
     }
 }

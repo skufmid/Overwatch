@@ -55,10 +55,14 @@ public class Recall : MonoBehaviour, ISkill
 
     public float Interval { get; private set; }
     public float Timer { get; private set; } = 0; // 0이하면 recall 가능
-    public int CurrentCount { get; private set; }
+    public int CurrentTimer { get; private set; }
 
-    public Action<bool> OnEnableSkill { get; set; }
-    public Action<int> OnCountChanged { get; set; }
+    public Action<int> OnChargeChanged { get; set; }
+    public Action<int> OnTimerChanged { get; set; }
+
+    public int DefaultCharge { get; }
+    public int MaxCharge { get; set; }
+    public int CurCharge { get; set; }
 
     [SerializeField] private Volume globalVolume;
     private ColorAdjustments colorAdjustments;
@@ -135,22 +139,22 @@ public class Recall : MonoBehaviour, ISkill
     IEnumerator CoTimer()
     {
         Timer = Interval;
-        OnEnableSkill?.Invoke(false);
+        OnChargeChanged?.Invoke(0);
 
         while (Timer > 0)
         {
             Timer -= Time.deltaTime;
-            int count = Mathf.CeilToInt(Timer);
-            if (CurrentCount != count)
+            int timer = Mathf.CeilToInt(Timer);
+            if (CurrentTimer != timer)
             {
-                CurrentCount = count;
-                OnCountChanged?.Invoke(CurrentCount);
+                CurrentTimer = timer;
+                OnTimerChanged?.Invoke(CurrentTimer);
             }
             yield return null;
         }
 
         Timer = 0;
-        OnEnableSkill?.Invoke(true);
+        OnChargeChanged?.Invoke(1);
     }
 
     IEnumerator CoFadeEffect(float targetValue, float transitionSpeed)

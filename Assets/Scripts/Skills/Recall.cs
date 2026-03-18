@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public class Recall : MonoBehaviour, ISkill
+public class Recall : SkillBase
 {
     public struct StatusInTime
     {
@@ -51,26 +51,22 @@ public class Recall : MonoBehaviour, ISkill
 
     private int maxStorage;
 
-    public float DefaultInterval => 4f;
-
-    public float Interval { get; private set; }
-    public float Timer { get; private set; } = 0; // 0이하면 recall 가능
-    public int CurrentCount { get; private set; }
-
-    public Action<bool> OnEnableSkill { get; set; }
-    public Action<int> OnCountChanged { get; set; }
+    public override string Name => "Recall";
+    public override float DefaultInterval => 4f;
+    public override int DefaultMaxCharge => 1;
 
     [SerializeField] private Volume globalVolume;
     private ColorAdjustments colorAdjustments;
 
     Coroutine fadeCoroutine;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         playerController = GetComponent<PlayerController>();
 
         maxStorage = Mathf.RoundToInt(recordTime / (Time.fixedDeltaTime * 3));
-        Interval = DefaultInterval;
 
         if (globalVolume.profile.TryGet(out colorAdjustments))
         {
@@ -83,9 +79,9 @@ public class Recall : MonoBehaviour, ISkill
         StartCoroutine(CoRecord());
     }
 
-    public void HandleRecall()
+
+    protected override void Execute()
     {
-        if (Timer > 0) return;
         StartCoroutine(CoRewind());
     }
 
@@ -129,28 +125,7 @@ public class Recall : MonoBehaviour, ISkill
         if (fadeCoroutine != null) { StopCoroutine(fadeCoroutine); }
         fadeCoroutine = StartCoroutine(CoFadeEffect(0f, 8f));
 
-        StartCoroutine(CoTimer());
-    }
-
-    IEnumerator CoTimer()
-    {
-        Timer = Interval;
-        OnEnableSkill?.Invoke(false);
-
-        while (Timer > 0)
-        {
-            Timer -= Time.deltaTime;
-            int count = Mathf.CeilToInt(Timer);
-            if (CurrentCount != count)
-            {
-                CurrentCount = count;
-                OnCountChanged?.Invoke(CurrentCount);
-            }
-            yield return null;
-        }
-
-        Timer = 0;
-        OnEnableSkill?.Invoke(true);
+        StartCoolDown();
     }
 
     IEnumerator CoFadeEffect(float targetValue, float transitionSpeed)

@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed)
         {
-            if (IsMovable) recall.HandleRecall();
+            if (IsMovable) recall.Use();
         }
     }
 

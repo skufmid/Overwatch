@@ -4,11 +4,15 @@ using UnityEngine;
 
 public interface ISkill
 {
+    string Name { get; }
     float DefaultInterval { get; }
     float Interval { get; }
-    float Timer { get;} // 0이하면 스킬 사용 가능
-    int CurrentCount { get; }
+    int DefaultMaxCharge { get; }
+    int MaxCharge { get; }
+    int CurCharge { get; }
+    float Timer { get; } // 0이하면 스킬 사용 가능
+    int CurrentTimer { get; }
 
-    Action<bool> OnEnableSkill { get; set; }
-    Action<int> OnCountChanged { get; set; }
+    Action<int> OnChargeChanged { get; set; }
+    Action<int> OnTimerChanged { get; set; }
 }

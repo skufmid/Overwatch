@@ -35,6 +35,7 @@ public abstract class SkillBase : MonoBehaviour, ISkill
 
     protected void StartCoolDown()
     {
+        Debug.Log("StartCoolDown");
         if (coTimer == null)
             coTimer = StartCoroutine(CoTimer());
     }
@@ -43,6 +44,7 @@ public abstract class SkillBase : MonoBehaviour, ISkill
 
     protected IEnumerator CoTimer()
     {
+        Debug.Log("Start CoTimer");
         Timer = 0;
 
         while (CurCharge < MaxCharge)
@@ -62,5 +64,8 @@ public abstract class SkillBase : MonoBehaviour, ISkill
 
             OnChargeChanged?.Invoke(++CurCharge);
         }
+
+        coTimer = null;
+        yield return null;
     }
 }

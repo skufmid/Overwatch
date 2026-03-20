@@ -25,12 +25,13 @@ public abstract class SkillBase : MonoBehaviour, ISkill
         CurCharge = MaxCharge;
     }
 
-    public void Use()
+    public void Use(object context = null)
     {
         if (CurCharge <= 0) return;
 
-        OnChargeChanged?.Invoke(--CurCharge);
-        Execute();
+        CurCharge -= 1;
+        OnChargeChanged?.Invoke(CurCharge);
+        Execute(context);
     }
 
     protected void StartCoolDown()
@@ -40,7 +41,11 @@ public abstract class SkillBase : MonoBehaviour, ISkill
             coTimer = StartCoroutine(CoTimer());
     }
 
-    protected abstract void Execute();
+    /// <summary>
+    ///  반드시 스킬을 사용하고 StartCoolDown()을 호출해야 합니다.
+    ///  호출하지 않으면 스킬 쿨타임이 동작하지 않습니다.
+    /// </summary>
+    protected abstract void Execute(object context);
 
     protected IEnumerator CoTimer()
     {
@@ -62,7 +67,8 @@ public abstract class SkillBase : MonoBehaviour, ISkill
                 yield return null;
             }
 
-            OnChargeChanged?.Invoke(++CurCharge);
+            CurCharge += 1;
+            OnChargeChanged?.Invoke(CurCharge);
         }
 
         coTimer = null;

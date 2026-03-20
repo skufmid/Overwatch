@@ -79,7 +79,7 @@ public class Recall : SkillBase
         StartCoroutine(CoRecord());
     }
 
-    protected override void Execute()
+    protected override void Execute(object context)
     {
         StartCoroutine(CoRewind());
     }

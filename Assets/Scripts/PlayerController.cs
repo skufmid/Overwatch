@@ -121,17 +121,18 @@ public class PlayerController : MonoBehaviour
 
     public void OnFlash(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && IsMovable)
         {
-            if (IsMovable) HandleFlash();
+            Vector3 dir = CalculateFlashDirection();
+            flash.Use(dir);
         }
     }
 
     public void OnRecall(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && IsMovable)
         {
-            if (IsMovable) recall.Use();
+            recall.Use();
         }
     }
 
@@ -183,7 +184,7 @@ public class PlayerController : MonoBehaviour
         //RotateCameraX(-rotateInput.y);
     }
 
-    public void HandleFlash()
+    public Vector3 CalculateFlashDirection()
     {
         Vector3 cameraRight = fpsCameraTransform.right;
         Vector3 cameraForward = fpsCameraTransform.forward;
@@ -198,7 +199,7 @@ public class PlayerController : MonoBehaviour
 
         if (flashDirection.Equals(Vector3.zero)) flashDirection = cameraForward.normalized;
 
-        flash.HandleFlash(flashDirection);
+        return flashDirection;
     }
 
     private void RotateCameraX(float value)

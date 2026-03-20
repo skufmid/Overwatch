@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -102,7 +102,7 @@ public class Recall : SkillBase
     {
         IsRewinding = true;
 
-        // ������ Fade ȿ���� ���� ���̾��ٸ� �����ϰ� ���� ����
+        // Stop any ongoing fade effect
         if (fadeCoroutine != null) { StopCoroutine(fadeCoroutine); }
         fadeCoroutine = StartCoroutine(CoFadeEffect(-100f, 2f));
 
@@ -120,7 +120,7 @@ public class Recall : SkillBase
 
         IsRewinding = false;
 
-        // ������ Fade ȿ���� ���� ���̾��ٸ� �����ϰ� ���� ����
+        // Stop any ongoing fade effect
         if (fadeCoroutine != null) { StopCoroutine(fadeCoroutine); }
         fadeCoroutine = StartCoroutine(CoFadeEffect(0f, 8f));
 
@@ -135,11 +135,13 @@ public class Recall : SkillBase
         while (time < 1f)
         {
             time += Time.deltaTime * transitionSpeed;
-            // Lerp�� �̿��� �ε巴�� �� ����
+            // Lerp the saturation value from startValue to targetValue based on the elapsed time
             colorAdjustments.saturation.value = Mathf.Lerp(startValue, targetValue, time);
             yield return null;
         }
 
         colorAdjustments.saturation.value = targetValue;
+
+        fadeCoroutine = null;
     }
 }

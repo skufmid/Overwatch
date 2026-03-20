@@ -4,12 +4,13 @@ using UnityEngine;
 
 public interface ISkill
 {
+    string Name { get; }
     float DefaultInterval { get; }
     float Interval { get; }
-    int DefaultCharge { get; }
+    int DefaultMaxCharge { get; }
     int MaxCharge { get; }
     int CurCharge { get; }
-    float Timer { get;} // 0ÀÌÇÏ¸é ½ºÅ³ »ç¿ë °¡´É
+    float Timer { get; } // 0ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     int CurrentTimer { get; }
 
     Action<int> OnChargeChanged { get; set; }

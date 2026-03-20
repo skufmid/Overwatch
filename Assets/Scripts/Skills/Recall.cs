@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
-public class Recall : MonoBehaviour, ISkill
+public class Recall : SkillBase
 {
     public struct StatusInTime
     {
@@ -51,30 +51,22 @@ public class Recall : MonoBehaviour, ISkill
 
     private int maxStorage;
 
-    public float DefaultInterval => 4f;
-
-    public float Interval { get; private set; }
-    public float Timer { get; private set; } = 0; // 0¿Ã«œ∏È recall ∞°¥…
-    public int CurrentTimer { get; private set; }
-
-    public Action<int> OnChargeChanged { get; set; }
-    public Action<int> OnTimerChanged { get; set; }
-
-    public int DefaultCharge { get; }
-    public int MaxCharge { get; set; }
-    public int CurCharge { get; set; }
+    public override string Name => "Recall";
+    public override float DefaultInterval => 4f;
+    public override int DefaultMaxCharge => 1;
 
     [SerializeField] private Volume globalVolume;
     private ColorAdjustments colorAdjustments;
 
     Coroutine fadeCoroutine;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         playerController = GetComponent<PlayerController>();
 
         maxStorage = Mathf.RoundToInt(recordTime / (Time.fixedDeltaTime * 3));
-        Interval = DefaultInterval;
 
         if (globalVolume.profile.TryGet(out colorAdjustments))
         {
@@ -87,9 +79,8 @@ public class Recall : MonoBehaviour, ISkill
         StartCoroutine(CoRecord());
     }
 
-    public void HandleRecall()
+    protected override void Execute()
     {
-        if (Timer > 0) return;
         StartCoroutine(CoRewind());
     }
 
@@ -111,7 +102,7 @@ public class Recall : MonoBehaviour, ISkill
     {
         IsRewinding = true;
 
-        // ¿Ã¿¸ø° Fade »ø∞˙∞° ¡¯«‡ ¡ﬂ¿Ãæ˙¥Ÿ∏È ¡ﬂ¡ˆ«œ∞Ì ªı∑Œ Ω√¿€
+        // ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ Fade »øÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÃæÔøΩÔøΩŸ∏ÔøΩ ÔøΩÔøΩÔøΩÔøΩÔøΩœ∞ÔøΩ ÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ
         if (fadeCoroutine != null) { StopCoroutine(fadeCoroutine); }
         fadeCoroutine = StartCoroutine(CoFadeEffect(-100f, 2f));
 
@@ -129,32 +120,11 @@ public class Recall : MonoBehaviour, ISkill
 
         IsRewinding = false;
 
-        // ¿Ã¿¸ø° Fade »ø∞˙∞° ¡¯«‡ ¡ﬂ¿Ãæ˙¥Ÿ∏È ¡ﬂ¡ˆ«œ∞Ì ªı∑Œ Ω√¿€
+        // ÔøΩÔøΩÔøΩÔøΩÔøΩÔøΩ Fade »øÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÃæÔøΩÔøΩŸ∏ÔøΩ ÔøΩÔøΩÔøΩÔøΩÔøΩœ∞ÔøΩ ÔøΩÔøΩÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ
         if (fadeCoroutine != null) { StopCoroutine(fadeCoroutine); }
         fadeCoroutine = StartCoroutine(CoFadeEffect(0f, 8f));
 
-        StartCoroutine(CoTimer());
-    }
-
-    IEnumerator CoTimer()
-    {
-        Timer = Interval;
-        OnChargeChanged?.Invoke(0);
-
-        while (Timer > 0)
-        {
-            Timer -= Time.deltaTime;
-            int timer = Mathf.CeilToInt(Timer);
-            if (CurrentTimer != timer)
-            {
-                CurrentTimer = timer;
-                OnTimerChanged?.Invoke(CurrentTimer);
-            }
-            yield return null;
-        }
-
-        Timer = 0;
-        OnChargeChanged?.Invoke(1);
+        StartCoolDown();
     }
 
     IEnumerator CoFadeEffect(float targetValue, float transitionSpeed)
@@ -165,7 +135,7 @@ public class Recall : MonoBehaviour, ISkill
         while (time < 1f)
         {
             time += Time.deltaTime * transitionSpeed;
-            // Lerp∏¶ ¿ÃøÎ«ÿ ∫ŒµÂ∑¥∞‘ ∞™ ∫Ø∞Ê
+            // LerpÔøΩÔøΩ ÔøΩÃøÔøΩÔøΩÔøΩ ÔøΩŒµÂ∑¥ÔøΩÔøΩ ÔøΩÔøΩ ÔøΩÔøΩÔøΩÔøΩ
             colorAdjustments.saturation.value = Mathf.Lerp(startValue, targetValue, time);
             yield return null;
         }
